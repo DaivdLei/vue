@@ -9,19 +9,26 @@ import { query } from './util/index'
 import { compileToFunctions } from './compiler/index'
 import { shouldDecodeNewlines, shouldDecodeNewlinesForHref } from './util/compat'
 
+// 把id转化成模板
 const idToTemplate = cached(id => {
   const el = query(id)
   return el && el.innerHTML
 })
 
+// 获取挂载
 const mount = Vue.prototype.$mount
+// 重写
+// 参数el很好理解，第二个参数为服务端渲染有关，在patch函数中用到
+// 返回一个组件类
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // 保证el是实例
   el = el && query(el)
 
   /* istanbul ignore if */
+  // 不要挂载在body和html上
   if (el === document.body || el === document.documentElement) {
     process.env.NODE_ENV !== 'production' && warn(
       `Do not mount Vue to <html> or <body> - mount to normal elements instead.`
@@ -29,8 +36,10 @@ Vue.prototype.$mount = function (
     return this
   }
 
+  // 这里的this就是vue实例
   const options = this.$options
   // resolve template/el and convert to render function
+  // 将template转换为render函数,前提是要没有render属性
   if (!options.render) {
     let template = options.template
     if (template) {
@@ -79,6 +88,7 @@ Vue.prototype.$mount = function (
       }
     }
   }
+  // 也就是说如果有render属性，template属性是不起作用的
   return mount.call(this, el, hydrating)
 }
 

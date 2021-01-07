@@ -9,6 +9,7 @@ const version = process.env.VERSION || require('../package.json').version
 const weexVersion = process.env.WEEX_VERSION || require('../packages/weex-vue-framework/package.json').version
 const featureFlags = require('./feature-flags')
 
+// 文件头(文件的头部的注释内容)
 const banner =
   '/*!\n' +
   ` * Vue.js v${version}\n` +
@@ -25,9 +26,13 @@ const weexFactoryPlugin = {
   }
 }
 
+// 别名
 const aliases = require('./alias')
 const resolve = p => {
   const base = p.split('/')[0]
+  // 例： base = 'web' 
+  // aliases[base] -> aliases['web'] : '../src/platforms/web'
+  // 即aliases文件所在位置的相对路径
   if (aliases[base]) {
     return path.resolve(aliases[base], p.slice(base.length + 1))
   } else {
@@ -35,6 +40,7 @@ const resolve = p => {
   }
 }
 
+// 各种版本构建的命令
 const builds = {
   // Runtime only (CommonJS). Used by bundlers e.g. Webpack & Browserify
   'web-runtime-cjs-dev': {
@@ -213,6 +219,8 @@ const builds = {
   }
 }
 
+// 创建打包配置
+// name target
 function genConfig (name) {
   const opts = builds[name]
   const config = {
@@ -263,6 +271,7 @@ function genConfig (name) {
   return config
 }
 
+// package.json文件里面配置的
 if (process.env.TARGET) {
   module.exports = genConfig(process.env.TARGET)
 } else {

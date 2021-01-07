@@ -228,6 +228,8 @@ export function toArray (list: any, start?: number): Array<any> {
 /**
  * Mix properties into target object.
  */
+// 混合属性到目标对象
+// 就是把from里面的属性全部复制到to对象里面
 export function extend (to: Object, _from: ?Object): Object {
   for (const key in _from) {
     to[key] = _from[key]

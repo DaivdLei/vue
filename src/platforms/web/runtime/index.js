@@ -27,18 +27,24 @@ Vue.config.getTagNamespace = getTagNamespace
 Vue.config.isUnknownElement = isUnknownElement
 
 // install platform runtime directives & components
+// 将后者对象的属性复制给前者对象,注册全局的指令和组件
 extend(Vue.options.directives, platformDirectives)
 extend(Vue.options.components, platformComponents)
 
 // install platform patch function
+// 如果在浏览器里面就patch（将虚拟dom转换为真实dom），不然就空操作
+// 判断inBrower就是用的全局变量是否是window
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// 公共的挂载方法
+// mountComponent -> 
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
   el = el && inBrowser ? query(el) : undefined
+  // 注册生命周期
   return mountComponent(this, el, hydrating)
 }
 

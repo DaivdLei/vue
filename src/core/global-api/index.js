@@ -29,11 +29,13 @@ export function initGlobalAPI (Vue: GlobalAPI) {
       )
     }
   }
+  // 初始化vue.config对象
   Object.defineProperty(Vue, 'config', configDef)
 
   // exposed util methods.
   // NOTE: these are not considered part of the public API - avoid relying on
   // them unless you are aware of the risk.
+  // vue.util的方法不视作全局API的一部分，除非你觉得你能有控制得了潜在的风险，但也不建议
   Vue.util = {
     warn,
     extend,

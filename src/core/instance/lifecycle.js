@@ -138,6 +138,8 @@ export function lifecycleMixin (Vue: Class<Component>) {
   }
 }
 
+// 挂载组件
+// 这个公共方法里面的挂载组件
 export function mountComponent (
   vm: Component,
   el: ?Element,
