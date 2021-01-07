@@ -30,6 +30,7 @@ export function initGlobalAPI (Vue: GlobalAPI) {
     }
   }
   // 初始化vue.config对象
+  // configDef有约束
   Object.defineProperty(Vue, 'config', configDef)
 
   // exposed util methods.
@@ -43,16 +44,20 @@ export function initGlobalAPI (Vue: GlobalAPI) {
     defineReactive
   }
 
+  // 静态方法
   Vue.set = set
   Vue.delete = del
   Vue.nextTick = nextTick
 
   // 2.6 explicit observable API
+  // 让一个对象可响应
   Vue.observable = <T>(obj: T): T => {
     observe(obj)
     return obj
   }
 
+  // 初始化一个options对象，并给它扩展 
+  // ASSET_TYPES 就是 component， filter， directive
   Vue.options = Object.create(null)
   ASSET_TYPES.forEach(type => {
     Vue.options[type + 's'] = Object.create(null)
@@ -64,8 +69,12 @@ export function initGlobalAPI (Vue: GlobalAPI) {
 
   extend(Vue.options.components, builtInComponents)
 
+ // 注册use
   initUse(Vue)
+  // 注册mixin
   initMixin(Vue)
+  // 注册extend
   initExtend(Vue)
+  // 注册全局Vue.components, filters, directives
   initAssetRegisters(Vue)
 }
