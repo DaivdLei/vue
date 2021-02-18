@@ -5,7 +5,7 @@ import { eventsMixin } from './events'
 import { lifecycleMixin } from './lifecycle'
 import { warn } from '../util/index'
 
-// 创建vue实例
+// 创建vue实例,不用class的原因是因为方便，后续给Vue实例混入实例成员
 function Vue (options) {
   // 判断环境
   if (process.env.NODE_ENV !== 'production' &&
