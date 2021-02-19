@@ -14,14 +14,21 @@ function Vue (options) {
     // 如果没有实例就会提示要new一个
     warn('Vue is a constructor and should be called with the `new` keyword')
   }
-  // 初始化
   this._init(options)
 }
 
+// 初始化vm
 initMixin(Vue)
+// 注册 vm 的 $data/$props/$set/$delete/$watch
 stateMixin(Vue)
+// 初始化事件相关方法 
+// $on/$once/$off/$emit
 eventsMixin(Vue)
+// 初始化生命周期相关的混入方法 
+// _update/$forceUpdate/$destroy
 lifecycleMixin(Vue)
+// 混入 render 
+// $nextTick/_render
 renderMixin(Vue)
 
 export default Vue

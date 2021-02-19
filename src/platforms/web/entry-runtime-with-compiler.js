@@ -70,7 +70,7 @@ Vue.prototype.$mount = function (
       if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
         mark('compile')
       }
-
+      // 挂载，如果没有render属性，会将template用compileToFunctions转换成render
       const { render, staticRenderFns } = compileToFunctions(template, {
         outputSourceRange: process.env.NODE_ENV !== 'production',
         shouldDecodeNewlines,
@@ -89,6 +89,7 @@ Vue.prototype.$mount = function (
     }
   }
   // 也就是说如果有render属性，template属性是不起作用的
+  // 返回了组件类mountComponent
   return mount.call(this, el, hydrating)
 }
 

@@ -13,6 +13,7 @@ import { extend, mergeOptions, formatComponentName } from '../util/index'
 let uid = 0
 
 export function initMixin (Vue: Class<Component>) {
+  // 给vue实例增加_init方法
   Vue.prototype._init = function (options?: Object) {
     const vm: Component = this
     // a uid
@@ -29,6 +30,7 @@ export function initMixin (Vue: Class<Component>) {
     // a flag to avoid this being observed
     vm._isVue = true
     // merge options
+    // 合并options
     if (options && options._isComponent) {
       // optimize internal component instantiation
       // since dynamic options merging is pretty slow, and none of the
@@ -49,11 +51,19 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+    // vm 的生命周期相关变量初始化 
+    // $children/$parent/$root/$refs
     initLifecycle(vm)
+    // vm 的事件监听初始化, 父组件绑定在当前组件上的事件
     initEvents(vm)
+    // vm 的编译render初始化 
+    // $slots/$scopedSlots/_c/$createElement/$attrs/$listeners
     initRender(vm)
+    // beforeCreate 生命钩子的回调
     callHook(vm, 'beforeCreate')
+    // 把 inject 的成员注入到 vm 上
     initInjections(vm) // resolve injections before data/props
+    // 初始化状态 vm 的 _props/methods/_data/computed/watch
     initState(vm)
     initProvide(vm) // resolve provide after data/props
     callHook(vm, 'created')
@@ -64,7 +74,7 @@ export function initMixin (Vue: Class<Component>) {
       mark(endTag)
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
-
+    // 如果提供了 el，调用 $mount() 挂载
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }

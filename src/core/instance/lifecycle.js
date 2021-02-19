@@ -166,6 +166,7 @@ export function mountComponent (
       }
     }
   }
+  // 挂载的生命周期(挂载之前开始)
   callHook(vm, 'beforeMount')
 
   let updateComponent
@@ -178,11 +179,14 @@ export function mountComponent (
       const endTag = `vue-perf-end:${id}`
 
       mark(startTag)
+      // _render是实例方法，在init的时候就注册了
       const vnode = vm._render()
       mark(endTag)
       measure(`vue ${name} render`, startTag, endTag)
 
       mark(startTag)
+      // 更新,将VDom转换成真实Dom
+      // 然后发现_update下面使用__patch__
       vm._update(vnode, hydrating)
       mark(endTag)
       measure(`vue ${name} patch`, startTag, endTag)
@@ -193,6 +197,7 @@ export function mountComponent (
     }
   }
 
+  // 拿到了updateComponent可以开始new Watcher
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
@@ -211,6 +216,7 @@ export function mountComponent (
     vm._isMounted = true
     callHook(vm, 'mounted')
   }
+  // 触发mounted，返回vm
   return vm
 }
 

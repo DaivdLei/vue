@@ -90,6 +90,7 @@ export default class Watcher {
         )
       }
     }
+    // 创建完后只要没有特别设置lazy属性，都会执行一次get方法
     this.value = this.lazy
       ? undefined
       : this.get()
@@ -98,11 +99,13 @@ export default class Watcher {
   /**
    * Evaluate the getter, and re-collect dependencies.
    */
+  // 计算getter，收集依赖
   get () {
     pushTarget(this)
     let value
     const vm = this.vm
     try {
+      // 调用getter,也就是expOrFn，在构造函数里面赋值了（实际上就是传过来的updateComponent）
       value = this.getter.call(vm, vm)
     } catch (e) {
       if (this.user) {

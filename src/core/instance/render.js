@@ -70,7 +70,7 @@ export function renderMixin (Vue: Class<Component>) {
     const vm: Component = this
     const { render, _parentVnode } = vm.$options
 
-    if (_parentVnode) {
+    if (_parentVnode) { // 有可能是没有的
       vm.$scopedSlots = normalizeScopedSlots(
         _parentVnode.data.scopedSlots,
         vm.$slots,
@@ -88,6 +88,11 @@ export function renderMixin (Vue: Class<Component>) {
       // separately from one another. Nested component's render fns are called
       // when parent component is patched.
       currentRenderingInstance = vm
+      // render是一个怎样的方法呢？
+      // 由上面可以知道来自vm.$options  -> entry-runtime-with-compiler
+      // compileToFunctions -> compiler/index
+      // code变量由generate得到 -> ./codegen/index
+      // generate(ast, options)  传入虚拟结构树和options
       vnode = render.call(vm._renderProxy, vm.$createElement)
     } catch (e) {
       handleError(e, vm, `render`)
