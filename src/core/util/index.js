@@ -1,7 +1,7 @@
 /* @flow */
 
 export * from 'shared/util'
-export * from './lang'
+export * from './lang' // def在这里
 export * from './env'
 export * from './options'
 export * from './debug'

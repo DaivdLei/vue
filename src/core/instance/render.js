@@ -60,6 +60,7 @@ export function setCurrentRenderingInstance (vm: Component) {
 
 export function renderMixin (Vue: Class<Component>) {
   // install runtime convenience helpers
+  // 给虚拟dom方法去别名？_c,_h,_l,_q????
   installRenderHelpers(Vue.prototype)
 
   Vue.prototype.$nextTick = function (fn: Function) {
@@ -93,6 +94,8 @@ export function renderMixin (Vue: Class<Component>) {
       // compileToFunctions -> compiler/index
       // code变量由generate得到 -> ./codegen/index
       // generate(ast, options)  传入虚拟结构树和options
+      // _renderProxy在init里面定义的，就是vm本身
+      // 还记得在页面定义的时候render(h)吗？createElement就是h函数
       vnode = render.call(vm._renderProxy, vm.$createElement)
     } catch (e) {
       handleError(e, vm, `render`)

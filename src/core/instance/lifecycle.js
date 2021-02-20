@@ -64,8 +64,10 @@ export function lifecycleMixin (Vue: Class<Component>) {
     vm._vnode = vnode
     // Vue.prototype.__patch__ is injected in entry points
     // based on the rendering backend used.
+    // 是否有上一次的虚拟dom
     if (!prevVnode) {
       // initial render
+      // __patch__在runtime/index下
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
@@ -179,7 +181,8 @@ export function mountComponent (
       const endTag = `vue-perf-end:${id}`
 
       mark(startTag)
-      // _render是实例方法，在init的时候就注册了
+      // _render是实例的方法，在_init->initRender->instance/render的时候就注册了
+      // 返回虚拟
       const vnode = vm._render()
       mark(endTag)
       measure(`vue ${name} render`, startTag, endTag)
